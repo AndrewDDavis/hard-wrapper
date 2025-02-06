@@ -1,9 +1,9 @@
 {
-    "name": "vs-code-paragraph-hard-wrapper",
-    "displayName": "Paragraph Hard Wrapper",
-    "description": "Replicates Sublime Text Alt + Q command on VS Code",
-    "version": "0.0.2",
-    "publisher": "haapanen",
+    "name": "hard-wrapper",
+    "displayName": "Hard-Wrapper",
+    "description": "VS-Code plugin to hard-wrap paragraphs",
+    "version": "0.0.3",
+    "publisher": "andrewddavis",
     "engines": {
         "vscode": "^1.29.0"
     },
@@ -12,24 +12,24 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/haapanen/vs-code-paragraph-hard-wrapper"
+        "url": "https://github.com/AndrewDDavis/hard-wrapper"
     },
     "activationEvents": [
-        "onCommand:paragraphHardWrapper.wrap"
+        "onCommand:hardWrapper.wrap"
     ],
     "main": "./out/src/extension",
     "contributes": {
         "commands": [{
-            "command": "paragraphHardWrapper.wrap",
+            "command": "hardWrapper.wrap",
             "title": "Hard Wrap"
         }],
         "configuration": {
             "title": "Paragraph Hard Wrapper",
             "properties": {
-                "paragraphHardWrapper.defaultWrapColumn": {
+                "hardWrapper.defaultWrapColumn": {
                     "type": "number",
                     "default": 80,
-                    "description": "Paragraph wrap column if no rulers are present"
+                    "description": "Wrapping column if no rulers are set"
                 }
             }
         }
