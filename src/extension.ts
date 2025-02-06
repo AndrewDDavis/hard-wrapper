@@ -49,20 +49,29 @@ function hardWrapText(text: string, maxLineLen: number): string {
     let currentLine = "";
     const words = text.split(/\s/);
 
+    // test for initial whitespace
+    let ws_init = ""
+    const matches = text.match(/^\s+/)  // array or null
+    if ( matches != null ) {
+        ws_init = matches[0]
+        currentLine = ws_init
+    }
+
     for (let i = 0, len = words.length; i < len; ++i) {
         const word = words[i];
         if (word.length === 0) {
             continue;
         }
 
+        // wrap if line would be too long
         if (currentLine.length + word.length + 1 > maxLineLen) {
             lines += currentLine + "\n";
-            currentLine = "";
+            currentLine = ws_init;
         }
 
         currentLine = addWord(currentLine, word);
     }
-    if (currentLine.length > 0) {
+    if (currentLine.length > ws_init.length) {
         lines += currentLine + "\n";
     }
 
@@ -70,7 +79,7 @@ function hardWrapText(text: string, maxLineLen: number): string {
 }
 
 export function activate(context: ExtensionContext) {
-    let disposable = commands.registerCommand('paragraphHardWrapper.wrap', () => {
+    let disposable = commands.registerCommand('hardWrapper.wrap', () => {
         const editor = window.activeTextEditor
         if (!editor)  {
             return;
@@ -78,7 +87,7 @@ export function activate(context: ExtensionContext) {
 
         // Get the smallest ruler
         const rulers: Array<number> = workspace.getConfiguration('editor').get('rulers');
-        let maxLen: number = workspace.getConfiguration('paragraphHardWrapper').get('defaultWrapColumn');
+        let maxLen: number = workspace.getConfiguration('hardWrapper').get('defaultWrapColumn');
         if (rulers.length > 0) {
             maxLen = rulers.sort((a, b) => b - a)[0];
         }
