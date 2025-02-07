@@ -35,9 +35,9 @@ function getSelectedParagraph(editor: TextEditor): Range {
     return new Range(start, end);
 }
 
-function addWord(line: string, word: string): string {
+function addWord(line: string, word: string, ws: string): string {
     if (line.length === 0) {
-        return word;
+        return ws + word;
     }
     else {
         return line + " " + word;
@@ -49,12 +49,11 @@ function hardWrapText(text: string, maxLineLen: number): string {
     let currentLine = "";
     const words = text.split(/\s/);
 
-    // test for initial whitespace
+    // capture any initial whitespace
     let ws_init = ""
     const matches = text.match(/^\s+/)  // array or null
     if ( matches != null ) {
         ws_init = matches[0]
-        currentLine = ws_init
     }
 
     for (let i = 0, len = words.length; i < len; ++i) {
@@ -66,12 +65,12 @@ function hardWrapText(text: string, maxLineLen: number): string {
         // wrap if line would be too long
         if (currentLine.length + word.length + 1 > maxLineLen) {
             lines += currentLine + "\n";
-            currentLine = ws_init;
+            currentLine = "";
         }
 
-        currentLine = addWord(currentLine, word);
+        currentLine = addWord(currentLine, word, ws_init);
     }
-    if (currentLine.length > ws_init.length) {
+    if (currentLine.length > 0) {
         lines += currentLine + "\n";
     }
 
